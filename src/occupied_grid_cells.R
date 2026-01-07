@@ -125,13 +125,34 @@ purrr::iwalk(
   }
 )
 
-# Combine two ggplots into one figure using patchwork
-# Place them side by side
+# Combine two ggplots into one figure using patchwork.
+# Place them side by side, avoid repeating the y axis label and use same y axis limits.
+max_y_value <- max(gam_occupied_grid_cells$full_cube$output$ucl)
+
+gam_plots$protected_areas_cube <- gam_plots$protected_areas_cube +
+  ggplot2::labs(y = NULL)
+
+gam_plots <- purrr::map(
+  .x = gam_plots,
+  .f = function(gam_plot) {
+    gam_plot +
+      ggplot2::coord_cartesian(ylim = c(0, max_y_value))
+  }
+)
+
 combined_plot <- gam_plots$full_cube +
-  gam_plots$protected_areas_cube +
-  patchwork::plot_annotation(
-    title = "Aantal bezette kilometerhokken per jaar",
-    subtitle = "Links: alle kilometerhokken; rechts: alleen Natura2000 kilometerhokken",
-    caption = "Bron: GBIF.org (06 January 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.zu6kf4"
-  )
+  gam_plots$protected_areas_cube
 combined_plot
+
+# Save combined plot as PNG, 300 dpi
+ggplot2::ggsave(
+  filename = here::here(
+    "figures",
+    "occupied_grid_cells_combined.png"
+  ),
+  plot = combined_plot,
+  width = 30,
+  height = 10,
+  units = "cm",
+  dpi = 300
+)
