@@ -32,7 +32,7 @@ jobs:
           mkdir -p _site
           cp -r figures/* _site/
           # Create index.html that redirects to your leaflet
-          echo '<meta http-equiv="refresh" content="0; url=heatmap_occurrences.html">' > _site/index. html
+          echo '<meta http-equiv="refresh" content="0; url=heatmap_occurrences.html">' > _site/index.html
       
       - name:  Upload artifact
         uses: actions/upload-pages-artifact@v3
