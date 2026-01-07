@@ -4,15 +4,19 @@ This repository contains the source code and the generated graphs related to the
 
 ## Repository Structure
 
-```         
+```
 ├── README.md              : Description of this repository
 ├── LICENSE                : Repository license
 ├── .gitignore             : Files and directories to be ignored by git
 │
+├── .github
+│   └── workflows
+│       └── deploy_leaflet_github_pages.yaml : GitHub Actions workflow for deployment GitHub Pages with the leaflet density heatmap, see /figures/heatmap_occurrences.html
+│
 ├── .vscode
 │   ├── extensions.json    : VSCode workspace extensions (e.g. linting and formatting via Air)
 │   └── settings.json      : VSCode workspace settings
-|
+│
 ├── src
 │   ├── heatmap_occurrences.R  : R script used for creating and saving the leaflet density heatmap
 │   └── occupied_grid_cells.R  : R script used for plotting and saving the number of occupied grid cells per year
