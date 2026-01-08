@@ -34,7 +34,7 @@ This repository contains the source code and the generated graphs related to the
 ### Main Data Sources
 
 -   GBIF Download of occurrences to create the leaflet heatmap (script: `heatmap_occurrences.R`): GBIF.org (06 January 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.juf58a
--   GBIF Download of species occurrence cubes to plot the number of occupied grid cells per year (script: `occupied_grid_cells.R`): GBIF.org (06 January 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.zu6kf4
+-   GBIF Download of species occurrence cubes to plot the number of occupied grid cells per year (script: `occupied_grid_cells.R`): GBIF.org (08 January 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.uttqsh
 
 ### Additional Data Sources
 
