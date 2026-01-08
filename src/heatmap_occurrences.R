@@ -25,10 +25,29 @@ unzip(zip_file, files = occ_file, exdir = exdir, overwrite = TRUE)
 occ_path <- file.path(exdir, occ_file)
 occs <- readr::read_tsv(occ_path, guess_max = 100000, show_col_types = FALSE)
 
+# Check the values of identificationVerificationStatus.
+# Sort by frequency (from most to least frequent).
+occs %>%
+  count(identificationVerificationStatus, sort = TRUE)
+
+# Remove explicitly non verified records
+not_verified_statuses <- c(
+  "unverified",
+  "not validated",
+  "under validation"
+)
+occs <- occs %>%
+  filter(
+    !identificationVerificationStatus %in% not_verified_statuses
+  )
+
 # Create a leaflet heatmap of occurrences based on columns "decimalLongitude" and "decimalLatitude".
 # The heatmap should refer to the number of occurrences in each area, i.e. number of rows with similar coordinates.
 # Add a layer with occurrences as circles. This layer should be toggleable on/off. Default: off.
 # Add base tiles: gray, topo, streetmap, hybrid, satellites.
+blur <- 25
+max <- 0.02
+radius <- 25
 heatmap_occs <- leaflet::leaflet(data = occs) %>%
   leaflet::setView(lng = 4.5, lat = 50.5, zoom = 8) %>%
   leaflet::addProviderTiles("CartoDB.Positron", group = "Gray") %>%
@@ -40,9 +59,9 @@ heatmap_occs <- leaflet::leaflet(data = occs) %>%
     lng = ~decimalLongitude,
     lat = ~decimalLatitude,
     intensity = ~1,
-    blur = 20,
-    max = 0.05,
-    radius = 15
+    blur = blur,
+    max = max,
+    radius = radius
   ) %>%
   leaflet::addCircleMarkers(
     lng = ~decimalLongitude,
@@ -57,7 +76,26 @@ heatmap_occs <- leaflet::leaflet(data = occs) %>%
     overlayGroups = c("Occurrences"),
     options = leaflet::layersControlOptions(collapsed = TRUE)
   ) %>%
-  leaflet::hideGroup("Occurrences")
+  leaflet::hideGroup("Occurrences") %>%
+  # Add legend with density map arguments
+  leaflet::addLegend(
+    position = "bottomright",
+    title = htmltools::HTML(
+      paste0(
+        "Heatmap settings<br/>",
+        "Blur: ",
+        blur,
+        "<br/>",
+        "Max: ",
+        max,
+        "<br/>",
+        "Radius: ",
+        radius
+      )
+    ),
+    colors = "black",
+    labels = ""
+  )
 heatmap_occs
 
 # Save heatmap as HTML

@@ -1,6 +1,6 @@
 # This R script download a GBIF species occurrence cube from a GBIF Download and creates plots
 # showing the number of occupied grid cells per year for all grid cells and for Natura2000 protected area grid cells only.
-# GBIF Download DOI: https://doi.org/10.15468/dl.zu6kf4
+# GBIF Download DOI: https://doi.org/10.15468/dl.uttqsh
 
 # Install trias R package if not already installed. Needed for GAM smoothing and plotting.
 if (!requireNamespace("trias", quietly = TRUE)) {
@@ -13,14 +13,14 @@ library(ggplot2)
 library(patchwork)
 library(trias)
 
-# Download and load GBIF occurrence data
-zip_url <- "https://api.gbif.org/v1/occurrence/download/request/0077465-251120083545085.zip"
+# Download and load GBIF species occurrence cube
+zip_url <- "https://api.gbif.org/v1/occurrence/download/request/0082270-251120083545085.zip"
 zip_file <- tempfile(fileext = ".zip")
 download.file(zip_url, zip_file, mode = "wb")
 
-# Find and extract 0077465-251120083545085.csv
+# Extract 0082270-251120083545085.csv
 zip_listing <- unzip(zip_file, list = TRUE)
-cube_file <- "0077465-251120083545085.csv"
+cube_file <- "0082270-251120083545085.csv"
 exdir <- tempdir()
 unzip(zip_file, files = cube_file, exdir = exdir, overwrite = TRUE)
 
